@@ -9,20 +9,22 @@ namespace LolDetailsSheets.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IHttpService _httpService;
-        public HomeController(IHttpService httpService)
-        {
-            _httpService = httpService;
-        }
+        //private readonly IHttpService _httpService;
+        //public HomeController(IHttpService httpService)
+        //{
+        //    _httpService = httpService;
+        //}
         public IActionResult Index()
         {
             return View();
         }
 
-        public async Task<IActionResult> Privacy()
+        public IActionResult Privacy()
         {
-            var ok = await _httpService.GetFromWebApi("https://localhost:44342/api/values");
-            return View(ok);
+            //var ok = await _httpService.GetFromWebApi("https://localhost:44342/api/values");
+            //return View(ok);
+            return View();
+
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

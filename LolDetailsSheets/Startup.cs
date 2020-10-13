@@ -29,12 +29,9 @@ namespace LolDetailsSheets
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            var mvcBuilder = services.AddControllersWithViews();
 
-#if DEBUG
-            mvcBuilder.AddRazorRuntimeCompilation();
-#endif
             services.AddRazorPages().AddRazorRuntimeCompilation();
+
             services.AddMvc().AddRazorRuntimeCompilation();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
@@ -52,14 +49,11 @@ namespace LolDetailsSheets
                     },
                 });
 
-                // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
 
-            services.AddScoped<IHttpService, HttpService>();
-            services.AddHttpClient<IHttpService, HttpService>().SetHandlerLifetime(TimeSpan.FromMinutes(1));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
