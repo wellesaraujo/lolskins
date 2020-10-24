@@ -3,30 +3,29 @@
     @model IEnumerable<DetailDataViewModel>
 
 }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
-<table class="daimler-table" id="Tabela" cellspacing="0"
+<table class="table" id="Tabela" cellspacing="0"
        width="100%">
     <thead>
         <tr>
-            <th class="daimler-table-header">
-                <b>Centro de Custo</b>
+            <th class="table-header">
+                <b>Id</b>
             </th>
-            <th class="daimler-table-header">
-                <b>Número de Fichas</b>
+            <th class="table-header">
+                <b>Boneco</b>
             </th>
-            <th class="daimler-table-header">
-                <b>Conclusão de Coleta</b>
+            <th class="table-header">
+                <b>Skins</b>
             </th>
-            <th class="daimler-table-header">
-                <b>Conclusão de Checagem</b>
+            <th class="table-header">
+                <b>SpotLight</b>
             </th>
-            <th class="daimler-table-header">
-                <b>Status</b>
-            </th>
-            <th class="daimler-table-header">
-                <b>Visualizar</b>
+            <th class="table-header">
+                <b>Detalhes</b>
             </th>
         </tr>
     </thead>
@@ -39,26 +38,16 @@
                 <td>@Html.DisplayFor(modelItem => item.CharName)</td>
                 <td>@Html.DisplayFor(modelItem => item.Skins)</td>
                 <td>@Html.DisplayFor(modelItem => item.Skin_Spotlight)</td>
-                @*<td>
-                        @{
-                            if (item.CollectionValue.Equals(100) && item.CollectionValue.Equals(100))
-                            {
-                                <span class="glyphicon glyphicon-ok-sign btn btn-success btn-xs"></span>
-                            }
-                            else if (item.CollectionValue == 0 && item.CheckValue == 0)
-                            {
-                                <a title="Não iniciado">
-                                    <span class=" glyphicon glyphicon-minus-sign btn btn-danger btn-xs" style="margin-right:22px;"></span>
-                                </a>
-                            }
-                            else
-                            {
-                                <a title="Em andamento">
-                                    <span class="glyphicon glyphicon-time btn btn-warning btn-xs" style="margin-right:22px;"></span>
-                                </a>
-                            }
-                        }
-                    </td>*@
+                <td>
+                    @{
+                        <button type="button" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-film"></span> Film
+                        </button>
+                        <button type="button" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-plus"></span> Plus
+                        </button>
+                    }
+                </td>
             </tr>
         }
     </tbody>

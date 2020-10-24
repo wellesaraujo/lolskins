@@ -2,35 +2,66 @@
 using Microsoft.AspNetCore.Mvc;
 using LolDetailsSheets.Models;
 using System.Threading.Tasks;
-using LolDetailsSheets.Services;
-using LolDetailsSheets.Interfaces.Services;
+using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using LolDetailsSheets.Helper;
 
 namespace LolDetailsSheets.Controllers
 {
     public class HomeController : Controller
     {
-        //private readonly IHttpService _httpService;
-        //public HomeController(IHttpService httpService)
-        //{
-        //    _httpService = httpService;
-        //}
+        private readonly IConfiguration _configuration;
+
+        public HomeController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+        #region HttpActions
+
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpGet]
+        public async Task<IActionResult> PrivacyAsync()
         {
-            //var ok = await _httpService.GetFromWebApi("https://localhost:44342/api/values");
-            //return View(ok);
-            return View();
-
+            return View( await GetAsync());
         }
 
+        [HttpGet]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        #endregion
+
+        #region Methods
+        private async Task<List<DetailDataViewModel>> GetAsync()
+        {
+            GoogleSheetHelper sheet = new GoogleSheetHelper();
+            var serviceValues = sheet.GetSheetsService().Spreadsheets.Values;
+            return await sheet.ReadAsync(serviceValues);
+        }
+
+        private async Task PutAsync([FromBody] DetailDataViewModel newData)
+        {
+            GoogleSheetHelper sheet = new GoogleSheetHelper();
+            var serviceValues = sheet.GetSheetsService().Spreadsheets.Values;
+
+            List<object> data = new List<object>
+            {
+                newData.CharName,
+                newData.Type,
+                newData.Skins,
+                newData.Skin_Spotlight
+            };
+            var end = _configuration.GetValue<string>("DefaultSettings:Parameters:ColumnRange");
+            string writeRange = "A" + newData.Id + ":" + end + newData.Id;
+            await sheet.WriteAsync(serviceValues, data, writeRange);
+        }
+        #endregion
     }
 }
